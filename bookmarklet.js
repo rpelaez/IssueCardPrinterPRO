@@ -7,7 +7,7 @@
   }
 
   var global = {};
-  global.version = "1.3.1UX (4.7.4)";
+  global.version = "1.3.2UX (4.7.4)";
   global.issueTrackingUrl = "github.com/rpelaez/IssueCardPrinterPRO";
 
   global.isDev = document.currentScript == null;
@@ -658,9 +658,9 @@
 
       module.baseUrl = function() {
         var jiraBaseUrl = window.location.origin;
-        alert(jiraBaseUrl);
-        try { jiraBaseUrl = $("input[title='baseURL']").attr('value'); } catch(ex){}
-        alert(jiraBaseUrl);
+        //alert(jiraBaseUrl);
+        //try { jiraBaseUrl = $("input[title='baseURL']").attr('value'); } catch(ex){}
+        //alert(jiraBaseUrl);
         return jiraBaseUrl
       }
 
