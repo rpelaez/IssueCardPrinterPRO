@@ -7,7 +7,7 @@
   }
 
   var global = {};
-  global.version = "1.3.2UX (4.7.4)";
+  global.version = "1.3.UX (4.7.4)";
   global.issueTrackingUrl = "github.com/rpelaez/IssueCardPrinterPRO";
 
   global.isDev = document.currentScript == null;
