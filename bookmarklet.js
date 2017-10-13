@@ -7,8 +7,8 @@
   }
 
   var global = {};
-  global.version = "1.2 (4.7.4)";
-  global.issueTrackingUrl = "github.com/rpelaez/Jira-Issue-Card-Printer";
+  global.version = "1.3UX (4.7.4)";
+  global.issueTrackingUrl = "github.com/rpelaez/IssueCardPrinterPRO";
 
   global.isDev = document.currentScript == null;
 
@@ -112,7 +112,7 @@
     addStringFunctions();
     loadSettings();
 
-    global.hostOrigin = "https://rpelaez.github.io/Jira-Issue-Card-Printer/";
+    global.hostOrigin = "https://rpelaez.github.io/IssueCardPrinterPRO/";
     if (global.isDev) {
       console.log("DEVELOPMENT");
       global.hostOrigin = "https://rawgit.com/qoomon/Jira-Issue-Card-Printer/develop/";
@@ -122,9 +122,9 @@
     var resources = getResources();
 
     global.cardHtml = resources.cardHtml;
-    global.cardCss = resources.cardCss.replace(/https:\/\/rpelaez.github.io\/Jira-Issue-Card-Printer\/resources/g, global.resourceOrigin);
+    global.cardCss = resources.cardCss.replace(/https:\/\/rpelaez.github.io\/IssueCardPrinterPRO\/resources/g, global.resourceOrigin);
     global.printPreviewHtml = resources.printPreviewHtml;
-    global.printPreviewCss = resources.printPreviewCss.replace(/https:\/\/rpelaez.github.io\/Jira-Issue-Card-Printer\/resources/g, global.resourceOrigin);
+    global.printPreviewCss = resources.printPreviewCss.replace(/https:\/\/rpelaez.github.io\/IssueCardPrinterPRO\/resources/g, global.resourceOrigin);
 
     return Promise.all(promises);
   }
