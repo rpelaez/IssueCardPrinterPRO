@@ -7,7 +7,7 @@
   }
 
   var global = {};
-  global.version = "4.1UX";
+  global.version = "5.5UX";
   global.issueTrackingUrl = "github.com/rpelaez/IssueCardPrinterPRO";
 
   global.isDev = document.currentScript == null;
@@ -732,59 +732,74 @@
 	// Next Gen Projects
     if (/.*\/jira\/software\/projects\/.*/g.test(document.URL)) {
     
+      // Request parameter
+      var selectedIssue;
+      var selectedIssueMatch = document.URL.match(/.*selectedIssue=([^&]*).*/);
+      if(selectedIssueMatch){
+        selectedIssue = document.URL.match(/.*selectedIssue=([^&]*).*/)[1]
+      }
+        
       // Backlog
       if (/.*\/jira\/software\/projects\/.*\/backlog($|\?).*/g.test(document.URL)) {
-          var issueClass = "sc-gxZfDQ";
-          var selectedClass = "jlZGIB";
-          return $(`div.${issueClass}.${selectedClass}`).map(function () {
-              return $(this).find('a').text();
+        var selectedIssues = $(`div[tabindex]`)
+          .filter(function() {
+            return $(this).css('background-color') == 'rgb(222, 235, 255)' 
+              || $(this).css('background-color') == 'rgb(255, 189, 173)';
+          })
+          .map(function () {
+              return $(this).find('> a').text();
           });
+        return selectedIssues.length ? selectedIssues : selectedIssue ? [ selectedIssue ]: [];
       }
       
       // Board
-      var issueClass = "sc-fAMDQA";
-      var selectedClass = "dXQUMX";
-      var keyClass = "sc-bCCsHx";
-      return $(`div.${issueClass}.${selectedClass}`).map(function () {
-          return $(this).find(`.${keyClass}`).text();
-      });
-    }      
-	      
-        //Issues
-        if (/.*\/issues\/.*/g.test(document.URL)) {
+      var selectedIssues = $(`div[tabindex]`)
+        .filter(function() {
+          return $(this).css('background-color') == 'rgb(222, 235, 255)'
+            || $(this).css('background-color') == 'rgb(255, 189, 173)';
+        })
+        .map(function () {
+          return $(this).find('div[id^=card-description-]')
+            .prop("id").replace('card-description-','');
+        });
+      return selectedIssues.length ? selectedIssues : selectedIssue ? [ selectedIssue ]: [];
+    }
 
-          var issues =  $('.issue-list > li').map(function() {
-              return $(this).attr('data-key');
-          });
+    //Browse
+    if (/.*\/browse\/.*/g.test(document.URL)) {
+        return [document.URL.match(/.*\/browse\/([^?]*).*/)[1]];
+    }
 
-          //backward compatibility
-          if (issues.empty()) {
-            issues =  $('tr[data-issuekey]').map(function() {
-              return $(this).attr('data-issuekey');
+    //Project
+    if (/.*\/projects\/.*/g.test(document.URL)) {
+        return [document.URL.match(/.*\/projects\/[^\/]*\/[^\/]*\/([^?]*).*/)[1]];
+    }
+
+    //Issues
+    if (/.*\/issues\/.*/g.test(document.URL)) {
+
+        var issues = $('.issue-list > li').map(function () {
+            return $(this).attr('data-key');
+        });
+
+        //backward compatibility
+        if (issues.empty()) {
+            issues = $('tr[data-issuekey]').map(function () {
+                return $(this).attr('data-issuekey');
             });
-          }
-
-          return issues;
         }
 
-        //Browse
-        if (/.*\/browse\/.*/g.test(document.URL)) {
-          return [document.URL.match(/.*\/browse\/([^?]*).*/)[1]];
-        }
+        return issues;
+    }
 
-        //Project
-        if (/.*\/projects\/.*/g.test(document.URL)) {
-          return [document.URL.match(/.*\/projects\/[^\/]*\/[^\/]*\/([^?]*).*/)[1]];
-        }
-
-        // RapidBoard
-        if (/.*\/secure\/RapidBoard.jspa.*/g.test(document.URL)) {
-          return $('div[data-issue-key].ghx-selected').map(function() {
+    // RapidBoard
+    if (/.*\/secure\/RapidBoard.jspa.*/g.test(document.URL)) {
+        return $('div[data-issue-key].ghx-selected').map(function () {
             return $(this).attr('data-issue-key');
-          });
-        }
+        });
+    }
 
-        return [];
+    return [];
       };
 
       module.getCardData = function(issueKey) {
